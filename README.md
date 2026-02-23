@@ -1,6 +1,9 @@
 OptiNurse - Sistema de Gestión y Control de Enfermería 🏥
+
 OptiNurse es una aplicación web diseñada para modernizar y optimizar el registro de procedimientos y aplicación de medicamentos en entornos hospitalarios. Este proyecto nace de la necesidad de sustituir los procesos manuales en hojas de cálculo (Excel) por una plataforma digital centralizada que garantice la oportunidad, integridad y visibilidad de la información para la Alta Gerencia.
+
 🚀 Estado del Proyecto: Fase 1 - Diseño y Maquetación
+
 Actualmente, el repositorio refleja los avances de la primera fase, centrada exclusivamente en el Diseño de Interfaz (UI) y la Experiencia de Usuario (UX).
 Tecnologías Utilizadas en esta fase:
 HTML5 para la estructura semántica.
