@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>OptiNurse - Mis Registros</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+        .row-disabled {
+            background-color: #f8f9fa;
+            color: #adb5bd;
+        }
+        .card-filter {
+            background: white;
+            border-radius: 15px;
+            border: none;
+            border-left: 5px solid var(--primary-color);
+        }
+        .btn-edit {
+            transition: all 0.2s;
+        }
+        .btn-edit:hover {
+            transform: scale(1.1);
+        }
+        /* Tooltip simple para explicar el bloqueo */
+        .locked-info {
+            cursor: help;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <img src="https://i.pravatar.cc/150?img=26" alt="User" class="profile-img">
+            <h6 class="mb-0 fw-bold">Lic. Sthefany Saavedra</h6>
+            <small class="text-muted">Enfermera Especialista</small><br>
+            <div class="badge bg-success mt-2">Enfermera</div>
+        </div>
+        <div class="p-3">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-grid-1x2-fill me-2"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="registro.html"><i class="bi bi-plus-circle me-2"></i> Registrar</a></li>
+                <li class="nav-item"><a class="nav-link active" href="consulta.html"><i class="bi bi-search me-2"></i> Mis Registros</a></li>
+            </ul>
+        </div>
+        <div class="position-absolute bottom-0 w-100 p-3 border-top">
+            <a href="login.html" class="btn btn-outline-danger w-100"><i class="bi bi-box-arrow-left me-2"></i> Cerrar Sesión</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 px-4 shadow-sm">
+            <button type="button" id="sidebarCollapse" class="btn btn-primary"><i class="bi bi-list"></i></button>
+            <span class="ms-3 fw-bold text-primary">OptiNurse > Historial de Registros</span>
+        </nav>
+
+        <div class="container-fluid p-4">
+            
+            <!-- FILTROS DE BÚSQUEDA -->
+            <div class="card card-filter shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold mb-3 text-secondary text-uppercase">Filtrar por rango de fecha</h6>
+                    <form class="row g-3 align-items-end">
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold">FECHA INICIO</label>
+                            <input type="date" class="form-control shadow-sm">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small fw-bold">FECHA FIN</label>
+                            <input type="date" class="form-control shadow-sm">
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-primary px-4 shadow-sm">
+                                <i class="bi bi-filter me-2"></i>Consultar Registros
+                            </button>
+                            <button type="reset" class="btn btn-light ms-2">Limpiar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- TABLA DE RESULTADOS -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card-header bg-white p-3 border-0 d-flex justify-content-between align-items-center pb-0">
+                    <div class="">
+                        <h5 class="fw-bold text-dark mb-1">Mis Registros de Actividades</h5>
+                        <p class="text-muted mt-2">
+                            Mostrando resultados desde el 
+                            <span class="badge bg-primary-subtle text-primary fs-6 fw-bold">01/05/2026</span> 
+                            hasta el 
+                            <span class="badge bg-primary-subtle text-primary fs-6 fw-bold">31/05/2026</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="card-body mt-0 mb-2">
+                    <div class="row align-items-center g-3">
+                        <!-- Campo de Búsqueda Global -->
+                        <div class="col-lg-7 col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-0"><i class="bi bi-search text-muted"></i></span>
+                                <input type="text" class="form-control bg-light border-0" placeholder="Filtrar por turno o estado de edición...">
+                            </div>
+                        </div>
+                        <!-- Botones de Exportación -->
+                        <div class="col-lg-5 col-md-6 text-md-end">
+                            <div class="btn-group shadow-sm">
+                                <button class="btn btn-outline-success btn-sm fw-bold border-2 d-flex align-items-center gap-2">
+                                    <i class="bi bi-file-earmark-excel-fill"></i> EXCEL
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm fw-bold border-2 d-flex align-items-center gap-2">
+                                    <i class="bi bi-file-earmark-pdf-fill"></i> PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="ps-4">Fecha Turno</th>
+                                <th>Turno</th>
+                                <th>Estado de Edición</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Registro Editable (Dentro de las 24h) -->
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="fw-bold text-dark">23/05/2026</div>
+                                    <div class="text-muted small">Registrado a las 14:20 PM</div>
+                                </td>
+                                <td><span class="badge bg-primary-subtle text-primary">Día (D)</span></td>
+                                <td>
+                                    <span class="status-badge bg-success-subtle text-success border border-success">
+                                        <i class="bi bi-unlock-fill me-1"></i> Editable (Quedan 18h)
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-sm btn-outline-primary"
+                                                data-bs-toggle="modal" data-bs-target="#modalEditar" title="Editar">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-dark" title="Ver Detalle"
+                                                data-bs-toggle="modal" data-bs-target="#modalDetalle">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" title="Eliminar Registro" data-bs-toggle="modal" data-bs-target="#modalEliminar">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Registro Bloqueado (Más de 24h) -->
+                            <tr class="row-disabled">
+                                <td class="ps-4 text-muted">
+                                    <div class="fw-bold">21/05/2026</div>
+                                    <div class="small">Registrado a las 19:10 PM</div>
+                                </td>
+                                <td><span class="badge bg-secondary-subtle text-secondary">Noche (N)</span></td>
+                                <td>
+                                    <span class="status-badge bg-danger-subtle text-danger border border-danger">
+                                        <i class="bi bi-lock-fill me-1"></i> Bloqueado (+24h)
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-sm btn-light border" title="Ver Detalle" data-bs-toggle="modal" data-bs-target="#modalDetalle">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </td>
+                            </tr>
+
+                            <!-- Otro Registro Editable -->
+                            <tr>
+                                <td class="ps-4 text-muted">
+                                    <div class="fw-bold">20/05/2026</div>
+                                    <div class="small">Registrado a las 17:10 PM</div>
+                                </td>
+                                <td><span class="badge bg-primary-subtle text-primary">Noche (N)</span></td>
+                                <td>
+                                    <span class="status-badge bg-success-subtle text-success border border-success">
+                                        <i class="bi bi-unlock-fill me-1"></i> Editable (Quedan 2h)
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-sm btn-outline-primary"
+                                                data-bs-toggle="modal" data-bs-target="#modalEditar" title="Editar">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-dark" title="Ver Detalle"
+                                                data-bs-toggle="modal" data-bs-target="#modalDetalle">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" title="Eliminar Registro" data-bs-toggle="modal" data-bs-target="#modalEliminar">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer bg-white border-0 p-3">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-sm justify-content-end mb-0">
+                            <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal Ver Detalle -->
+<div class="modal fade" id="modalDetalle" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-light border-0 py-3">
+                <h5 class="modal-title fw-bold text-primary">
+                    <i class="bi bi-file-earmark-text me-2"></i>Detalle del Registro
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 0.7rem;">Fecha</small>
+                        <span class="fw-bold">22 de Mayo, 2026</span>
+                    </div>
+                    <div class="col-6 text-end">
+                        <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 0.7rem;">Turno</small>
+                        <span class="badge bg-primary">Día (D)</span>
+                    </div>
+                </div>
+
+                <h6 class="fw-bold mb-3 border-bottom pb-2 text-secondary">Resumen de Actividades</h6>
+                
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        Ingresos Pediatría
+                        <span class="badge bg-secondary rounded-pill">05</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        Ingresos Cirugía
+                        <span class="badge bg-secondary rounded-pill">02</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        Bomba de Infusión
+                        <span class="badge bg-secondary rounded-pill">12</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        Nebulizaciones
+                        <span class="badge bg-secondary rounded-pill">08</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer border-0 p-4">
+                <button type="button" class="btn btn-secondary w-100 rounded-pill" data-bs-dismiss="modal">Cerrar Vista</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal Editar -->
+<div class="modal fade" id="modalEditar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered border-0">
+        <div class="modal-content shadow-lg border-0">
+            <div class="modal-header bg-primary text-white border-0">
+                <h5 class="modal-title fw-bold">
+                    <i class="bi bi-pencil-square me-2"></i>Modificar Registro
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <!-- Alerta de tiempo límite -->
+                <div class="alert alert-warning border-0 rounded-0 m-0 d-flex align-items-center" style="font-size: 0.85rem;">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    Recuerde que solo puede modificar este registro dentro de las 24 horas posteriores a su creación.
+                </div>
+                
+                <div class="p-4">
+                    <div class="row g-3 mb-4 bg-light p-3 rounded-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted text-uppercase">Fecha</label>
+                            <input type="date" class="form-control border-0 shadow-sm" value="2026-05-22" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted text-uppercase">Turno</label>
+                            <select class="form-select border-0 shadow-sm" disabled>
+                                <option value="D">D (Día)</option>
+                                <option value="N">N (Noche)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                        <table class="table align-middle">
+                            <thead class="sticky-top bg-white">
+                                <tr>
+                                    <th style="width: 70%;">Descripción</th>
+                                    <th class="text-center">Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-light"><td colspan="2" class="fw-bold small">PROCEDIMIENTOS</td></tr>
+                                <tr>
+                                    <td class="ps-3">Ingresos de Pediatría</td>
+                                    <td><input type="number" class="form-control form-control-sm text-center mx-auto" style="width: 70px;" value="5"></td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-3">Ingresos a Cirugía</td>
+                                    <td><input type="number" class="form-control form-control-sm text-center mx-auto" style="width: 70px;" value="2"></td>
+                                </tr>
+                                <tr class="table-light"><td colspan="2" class="fw-bold small">MEDICAMENTOS</td></tr>
+                                <tr>
+                                    <td class="ps-3">Bomba de Infusión</td>
+                                    <td><input type="number" class="form-control form-control-sm text-center mx-auto" style="width: 70px;" value="12"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 p-4 bg-light">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Descartar Cambios</button>
+                <button type="button" class="btn btn-primary px-4 fw-bold shadow">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('sidebarCollapse').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('content').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

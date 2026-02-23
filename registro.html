@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>OptiNurse - Registro de Turno</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css"> <!-- Usando el CSS del paso anterior -->
+    <style>
+        /* Estilos específicos para la tabla de registro */
+        .table-input {
+            width: 80px;
+            text-align: center;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            transition: all 0.3s;
+        }
+        .table-input:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(32, 201, 151, 0.25);
+            outline: none;
+        }
+        .category-header {
+            background-color: #f1f4f9;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+        #section-data { display: none; } /* Oculto inicialmente */
+        
+        .sticky-summary {
+            position: sticky;
+            bottom: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR (Igual al anterior) -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <img src="https://i.pravatar.cc/150?img=26" alt="User" class="profile-img">
+            <h6 class="mb-0 fw-bold">Lic. Sthefany Saavedra</h6>
+            <small class="text-muted">Enfermera Especialista</small><br>
+            <div class="badge bg-success mt-2">Enfermera</div>
+        </div>
+        <div class="p-3">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-grid-1x2-fill me-2"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link active" href="registro.html"><i class="bi bi-plus-circle me-2"></i> Registrar</a></li>
+                <li class="nav-item"><a class="nav-link" href="consulta.html"><i class="bi bi-search me-2"></i> Mis Registros</a></li>
+            </ul>
+        </div>
+        <div class="position-absolute bottom-0 w-100 p-3 border-top">
+            <a href="login.html" class="btn btn-outline-danger w-100"><i class="bi bi-box-arrow-left me-2"></i> Cerrar Sesión</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 px-4 shadow-sm">
+            <button type="button" id="sidebarCollapse" class="btn btn-primary"><i class="bi bi-list"></i></button>
+            <span class="ms-3 fw-bold text-primary">OptiNurse > Nuevo Registro</span>
+        </nav>
+
+        <div class="container-fluid p-4">
+            
+            <!-- PASO 1: Selección de Contexto -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-calendar-check me-2 text-primary"></i>Configuración del Turno</h5>
+                    <div class="row align-items-end g-3">
+                        <div class="col-md-4">
+                            <label class="form-label text-muted small fw-bold">FECHA DE APLICACIÓN</label>
+                            <input type="date" id="fecha" class="form-control form-control-lg shadow-sm" value="2026-05-22">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-muted small fw-bold">TURNO</label>
+                            <select id="turno" class="form-select form-select-lg shadow-sm">
+                                <option value="" selected disabled>Seleccione Turno</option>
+                                <option value="D">D (Día - 07:00 a 19:00)</option>
+                                <option value="N">N (Noche - 19:00 a 07:00)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" onclick="mostrarRegistro()" class="btn btn-primary btn-lg w-100 shadow">
+                                <i class="bi bi-arrow-right-circle me-2"></i>Iniciar Registro
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 2: Tabla de Datos (Se muestra al dar clic) -->
+            <div id="section-data" class="animate__animated animate__fadeIn">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                    <div class="card-header bg-white p-3 border-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="fw-bold mb-0 text-dark">Listado de Actividades y Medicamentos</h5>
+                            <span class="badge bg-info-subtle text-info">Editando Turno Actual</span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr class="bg-light">
+                                    <th class="ps-4" style="width: 70%;">Descripción del Procedimiento / Medicamento</th>
+                                    <th class="text-center">Cantidad Realizada</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Categoría: PROCEDIMIENTOS -->
+                                <tr><td colspan="2" class="category-header ps-4">Procedimientos e Ingresos</td></tr>
+                                <tr>
+                                    <td class="ps-4">Ingresos de Pediatría</td>
+                                    <td class="text-center"><input type="number" class="table-input" placeholder="0"></td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-4">Ingresos a Cirugía</td>
+                                    <td class="text-center"><input type="number" class="table-input" placeholder="0"></td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-4">Fallecidos</td>
+                                    <td class="text-center"><input type="number" class="table-input" placeholder="0"></td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-4">Ingresos de Emergencia</td>
+                                    <td class="text-center"><input type="number" class="table-input" placeholder="0"></td>
+                                </tr>
+
+                                <!-- Categoría: MEDICAMENTOS -->
+                                <tr><td colspan="2" class="category-header ps-4">Aplicación de Medicamentos / Equipos</td></tr>
+                                <tr>
+                                    <td class="ps-4">Bomba de Infusión (Programación/Control)</td>
+                                    <td class="text-center"><input type="number" class="table-input" placeholder="0"></td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-4">Cuidados Post-Mortem</td>
+                                    <td class="text-center"><input type="number" class="table-input" placeholder="0"></td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-4">Instalación de Vía Periférica</td>
+                                    <td class="text-center"><input type="number" class="table-input" placeholder="0"></td>
+                                </tr>
+                                <tr>
+                                    <td class="ps-4">Nebulizaciones</td>
+                                    <td class="text-center"><input type="number" class="table-input" placeholder="0"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Footer de Acción Fijo/Sticky -->
+                <div class="sticky-summary mt-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-muted me-3">Resumen:</span>
+                        <span class="fw-bold text-primary"><i class="bi bi-check2-all me-1"></i> Listo para guardar</span>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-secondary me-2">Guardar Borrador</button>
+                        <button class="btn btn-success px-5 fw-bold shadow">FINALIZAR Y ENVIAR REGISTRO</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle Sidebar
+        document.getElementById('sidebarCollapse').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('content').classList.toggle('active');
+        });
+
+        // Función para mostrar la tabla
+        function mostrarRegistro() {
+            const turno = document.getElementById('turno').value;
+            if(turno === "") {
+                alert("Por favor, seleccione un turno antes de continuar.");
+                return;
+            }
+            
+            // Mostrar la sección con una transición
+            const section = document.getElementById('section-data');
+            section.style.display = 'block';
+            
+            // Hacer scroll suave hacia la tabla
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

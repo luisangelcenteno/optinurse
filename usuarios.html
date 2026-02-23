@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>OptiNurse - Gestión de Usuarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.1rem;
+        }
+        .badge-role { font-size: 0.75rem; padding: 5px 10px; border-radius: 8px; }
+        .row-inactive { opacity: 0.6; background-color: #fdf2f2; }
+        .form-label { font-weight: 600; font-size: 0.85rem; color: #555; text-transform: uppercase; }
+        .badge-admin { background-color: #6f42c1; } /* Púrpura para Admin */
+        .badge-consultor { background-color: #17a2b8; } /* Cyan para Consultor */
+        .badge-enfermero { background-color: #0d6efd; } /* Azul para Enfermero */
+        .btn-export {
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 8px 16px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .btn-excel { background-color: #1d6f42; color: white; border: none; }
+        .btn-excel:hover { background-color: #155231; color: white; }
+        .btn-pdf { background-color: #e63946; color: white; border: none; }
+        .btn-pdf:hover { background-color: #c12a36; color: white; }
+
+        /* Estilo para el buscador */
+        .search-container {
+            position: relative;
+            max-width: 400px;
+        }
+        .search-container i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #adb5bd;
+        }
+        .search-container input {
+            padding-left: 38px;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+        }
+
+        .user-full-name { font-size: 0.95rem; font-weight: 600; color: #2d3436; }
+        .user-sub-text { font-size: 0.8rem; color: #636e72; }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <img src="https://i.pravatar.cc/150?img=26" alt="User" class="profile-img">
+            <h6 class="mb-0 fw-bold">Lic. Sthefany Saavedra</h6>
+            <small class="text-muted">Enfermera Especialista</small><br>
+            <div class="badge bg-dark mt-2">Administrador</div>
+        </div>
+        <div class="p-3">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-grid-1x2-fill me-2"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link active" href="usuarios.html"><i class="bi bi-people-fill me-2"></i> Gestión de Usuarios</a></li>
+            </ul>
+        </div>
+        <div class="position-absolute bottom-0 w-100 p-3 border-top">
+            <a href="login.html" class="btn btn-outline-danger w-100"><i class="bi bi-box-arrow-left me-2"></i> Cerrar Sesión</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+     <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 px-4 shadow-sm">
+            <button type="button" id="sidebarCollapse" class="btn btn-primary"><i class="bi bi-list"></i></button>
+            <span class="ms-3 fw-bold text-primary">OptiNurse > Administración de Personal</span>
+        </nav>
+
+        <div class="container-fluid p-4">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h4 class="fw-bold mb-0 text-dark">Gestión de Usuarios</h4>
+                    <p class="text-muted small">Administre los datos, profesiones y estados de acceso del personal.</p>
+                </div>
+                <button class="btn btn-primary shadow-sm px-4 fw-bold" data-bs-toggle="modal" data-bs-target="#modalUsuario">
+                    <i class="bi bi-person-plus-fill me-2"></i>Registrar Nuevo
+                </button>
+            </div>
+
+            <!-- TABLA DE USUARIOS -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card-header bg-white p-4 border-0">
+                    <div class="row align-items-center g-3">
+                        <!-- Buscador -->
+                        <div class="col-lg-6 col-md-5">
+                            <div class="search-container">
+                                <i class="bi bi-search"></i>
+                                <input type="text" class="form-control" placeholder="Buscar por Nombre, DNI, Profesión o Rol...">
+                            </div>
+                        </div>
+                        <!-- Botones de Descarga -->
+                        <div class="col-lg-6 col-md-7 text-md-end">
+                            <span class="text-muted small me-3 d-none d-xl-inline">Descargar Listado:</span>
+                            <div class="btn-group shadow-sm">
+                                <button class="btn btn-excel btn-export">
+                                    <i class="bi bi-file-earmark-excel-fill"></i> EXCEL
+                                </button>
+                                <button class="btn btn-pdf btn-export">
+                                    <i class="bi bi-file-earmark-pdf-fill"></i> PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="ps-4">Personal</th>
+                                <th>DNI</th>
+                                <th>Profesión</th>
+                                <th>Género</th>
+                                <th>Perfil</th>
+                                <th>Estado</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- USUARIO ACTIVO -->
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="user-avatar bg-primary me-3 shadow-sm">DM</div>
+                                        <div>
+                                            <div class="fw-bold">Delgado Mendoza, Maria</div>
+                                            <small class="text-muted">maria.delgado@optinurse.com</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-light text-dark border">44556677</span></td>
+                                <td>Lic. Enfermería</td>
+                                <td>Femenino</td>
+                                <td><span class="badge badge-role bg-info-subtle text-info border border-info">Enfermero</span></td>
+                                <td><span class="badge bg-success">Activo</span></td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEditarUsuario">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalBajaUsuario">
+                                        <i class="bi bi-person-x-fill"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- USUARIO INACTIVO (DE BAJA) -->
+                            <tr class="row-inactive">
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="user-avatar bg-secondary me-3 shadow-sm">SP</div>
+                                        <div>
+                                            <div class="fw-bold">Sosa Prada, Ricardo</div>
+                                            <small class="text-muted">ricardo.sosa@optinurse.com</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-light text-dark border">11223344</span></td>
+                                <td>Téc. Enfermería</td>
+                                <td>Masculino</td>
+                                <td><span class="badge badge-role bg-info-subtle text-info border border-info">Enfermero</span></td>
+                                <td><span class="badge bg-secondary">Inactivo</span></td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEditarUsuario">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modalAltaUsuario">
+                                        <i class="bi bi-person-check-fill"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer bg-white p-3 border-0 border-top text-center text-md-start">
+                    <span class="small text-muted">Mostrando 2 de 24 usuarios registrados</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: REGISTRAR / EDITAR USUARIO (Sin check de activo) -->
+    <div class="modal fade" id="modalUsuario" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-primary text-white p-4">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-person-vcard me-2"></i>Ficha de Registro de Usuario</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form class="row g-3">
+                        <!-- Nombres y Apellidos -->
+                        <div class="col-md-4">
+                            <label class="form-label">Nombres</label>
+                            <input type="text" class="form-control" placeholder="Ej. Maria">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Apellido Paterno</label>
+                            <input type="text" class="form-control" placeholder="Apellido">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Apellido Materno</label>
+                            <input type="text" class="form-control" placeholder="Apellido">
+                        </div>
+
+                        <!-- Datos Identificación y Género -->
+                        <div class="col-md-4 mt-3">
+                            <label class="form-label">DNI / Documento</label>
+                            <input type="text" class="form-control" placeholder="8 dígitos">
+                        </div>
+                        <div class="col-md-4 mt-3">
+                            <label class="form-label">Género</label>
+                            <select class="form-select">
+                                <option value="" selected disabled>Seleccionar...</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                                <option value="O">Otro</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mt-3">
+                            <label class="form-label">Profesión</label>
+                            <select class="form-select">
+                                <option value="" selected disabled>Seleccionar...</option>
+                                <option value="lic">Lic. Enfermería</option>
+                                <option value="tec">Téc. Enfermería</option>
+                                <option value="med">Médico</option>
+                                <option value="adm">Administrativo</option>
+                            </select>
+                        </div>
+
+                        <!-- Seguridad y Perfil -->
+                        <div class="col-md-6 mt-3">
+                            <label class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" placeholder="Mínimo 8 caracteres">
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <label class="form-label">Perfil de Usuario (Rol)</label>
+                            <select class="form-select">
+                                <option value="enfermero">Enfermero (Registra)</option>
+                                <option value="consultor">Consultor (Reportes)</option>
+                                <option value="admin">Administrador (Control)</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0 p-4 bg-light">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary px-4 fw-bold shadow">Guardar Usuario</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-primary text-white p-4">
+                <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>Actualizar Datos del Personal</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Nombres</label>
+                        <input type="text" class="form-control" value="Maria">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Apellido Paterno</label>
+                        <input type="text" class="form-control" value="Delgado">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Apellido Materno</label>
+                        <input type="text" class="form-control" value="Mendoza">
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <label class="form-label">DNI / Documento</label>
+                        <input type="text" class="form-control bg-light" value="44556677" readonly>
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <label class="form-label">Género</label>
+                        <select class="form-select">
+                            <option value="F" selected>Femenino</option>
+                            <option value="M">Masculino</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <label class="form-label">Profesión</label>
+                        <select class="form-select">
+                            <option value="lic" selected>Lic. Enfermería</option>
+                            <option value="tec">Téc. Enfermería</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <label class="form-label">Cambiar Contraseña (Opcional)</label>
+                        <input type="password" class="form-control" placeholder="Dejar en blanco para no cambiar">
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <label class="form-label">Perfil / Rol</label>
+                        <select class="form-select">
+                            <option value="enfermero" selected>Enfermero (Registra)</option>
+                            <option value="consultor">Consultor</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0 p-4 bg-light">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary px-4 fw-bold">Actualizar Información</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalBajaUsuario" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-body p-4 text-center">
+                <div class="text-danger mb-3">
+                    <i class="bi bi-exclamation-octagon-fill" style="font-size: 3.5rem;"></i>
+                </div>
+                <h5 class="fw-bold">¿Dar de baja?</h5>
+                <p class="text-muted small">El usuario <strong>Maria Delgado</strong> ya no podrá ingresar al sistema una vez desactivado.</p>
+                <div class="d-grid gap-2 mt-4">
+                    <button type="button" class="btn btn-danger fw-bold py-2 shadow-sm">Confirmar Baja</button>
+                    <button type="button" class="btn btn-light text-muted" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalAltaUsuario" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-body p-4 text-center">
+                <div class="text-success mb-3">
+                    <i class="bi bi-person-check-fill" style="font-size: 3.5rem;"></i>
+                </div>
+                <h5 class="fw-bold">¿Reactivar Usuario?</h5>
+                <p class="text-muted small">Dará de alta nuevamente a <strong>Ricardo Sosa</strong> para que acceda al sistema.</p>
+                <div class="d-grid gap-2 mt-4">
+                    <button type="button" class="btn btn-success fw-bold py-2 shadow-sm">Activar Ahora</button>
+                    <button type="button" class="btn btn-light text-muted" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('sidebarCollapse').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('content').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
