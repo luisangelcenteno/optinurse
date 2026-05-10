@@ -103,3 +103,11 @@ body {
     font-size: 1.5rem;
     margin-bottom: 15px;
 }
+
+.video-link{
+    text-decoration: none;
+}
+
+.video-link:hover{
+    text-decoration: none;
+}
