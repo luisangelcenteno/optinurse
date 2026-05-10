@@ -46,14 +46,14 @@
     <!-- SIDEBAR (Igual al anterior) -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <img src="https://i.pravatar.cc/150?img=26" alt="User" class="profile-img">
-            <h6 class="mb-0 fw-bold">Lic. Sthefany Saavedra</h6>
-            <small class="text-muted">Enfermera Especialista</small><br>
+            <img alt="User" class="profile-img" id="img-usuario">
+            <h6 class="mb-0 fw-bold" id="usuario"></h6>
+            <small class="text-muted">Especialista Pedriática</small><br>
             <div class="badge bg-success mt-2">Enfermera</div>
         </div>
         <div class="p-3">
             <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-grid-1x2-fill me-2"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="bi bi-grid-1x2-fill me-2"></i> Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link active" href="registro.html"><i class="bi bi-plus-circle me-2"></i> Registrar</a></li>
                 <li class="nav-item"><a class="nav-link" href="consulta.html"><i class="bi bi-search me-2"></i> Mis Registros</a></li>
             </ul>
@@ -196,6 +196,22 @@
             
             // Hacer scroll suave hacia la tabla
             section.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        let usuario = localStorage.getItem("usuario");
+
+        if (usuario == "66666666") {
+            document.getElementById("usuario").textContent = "Lic. Maria Delgado";
+            document.getElementById("img-usuario").src = "https://i.pravatar.cc/150?img=26";
+        } else if (usuario == "44444444") {
+            document.getElementById("usuario").textContent = "Lic. Nayda Gomez";
+            document.getElementById("img-usuario").src = "https://i.pravatar.cc/150?img=27";
+        } else if (usuario == "33333333") {
+            document.getElementById("usuario").textContent = "Lic. Alondra Huaraca";
+            document.getElementById("img-usuario").src = "https://i.pravatar.cc/150?img=28";
+        } else if (usuario == "22222222") {
+            document.getElementById("usuario").textContent = "Lic. Maricela Leon";
+            document.getElementById("img-usuario").src = "https://i.pravatar.cc/150?img=32";
         }
     </script>
 </body>

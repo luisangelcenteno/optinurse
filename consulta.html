@@ -40,14 +40,14 @@
     <!-- SIDEBAR -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <img src="https://i.pravatar.cc/150?img=26" alt="User" class="profile-img">
-            <h6 class="mb-0 fw-bold">Lic. Sthefany Saavedra</h6>
-            <small class="text-muted">Enfermera Especialista</small><br>
+            <img alt="User" class="profile-img" id="img-usuario">
+            <h6 class="mb-0 fw-bold" id="usuario"></h6>
+            <small class="text-muted">Especialista Pedriática</small><br>
             <div class="badge bg-success mt-2">Enfermera</div>
         </div>
         <div class="p-3">
             <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-grid-1x2-fill me-2"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="bi bi-grid-1x2-fill me-2"></i> Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="registro.html"><i class="bi bi-plus-circle me-2"></i> Registrar</a></li>
                 <li class="nav-item"><a class="nav-link active" href="consulta.html"><i class="bi bi-search me-2"></i> Mis Registros</a></li>
             </ul>
@@ -114,12 +114,12 @@
                         <!-- Botones de Exportación -->
                         <div class="col-lg-5 col-md-6 text-md-end">
                             <div class="btn-group shadow-sm">
-                                <button class="btn btn-outline-success btn-sm fw-bold border-2 d-flex align-items-center gap-2">
+                                <a class="btn btn-outline-success btn-sm fw-bold border-2 d-flex align-items-center gap-2" target="_blank" href="miactividad.xlsx">
                                     <i class="bi bi-file-earmark-excel-fill"></i> EXCEL
-                                </button>
-                                <button class="btn btn-outline-danger btn-sm fw-bold border-2 d-flex align-items-center gap-2">
+                                </a>
+                                <a class="btn btn-outline-danger btn-sm fw-bold border-2 d-flex align-items-center gap-2" target="_blank" href="miactividad.pdf">
                                     <i class="bi bi-file-earmark-pdf-fill"></i> PDF
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                             <tr>
                                 <td class="ps-4">
                                     <div class="fw-bold text-dark">23/05/2026</div>
-                                    <div class="text-muted small">Registrado a las 14:20 PM</div>
+                                    <div class="text-muted small">Registrado a las 14:20:18</div>
                                 </td>
                                 <td><span class="badge bg-primary-subtle text-primary">Día (D)</span></td>
                                 <td>
@@ -168,7 +168,7 @@
                             <tr class="row-disabled">
                                 <td class="ps-4 text-muted">
                                     <div class="fw-bold">21/05/2026</div>
-                                    <div class="small">Registrado a las 19:10 PM</div>
+                                    <div class="small">Registrado a las 19:10:41</div>
                                 </td>
                                 <td><span class="badge bg-secondary-subtle text-secondary">Noche (N)</span></td>
                                 <td>
@@ -189,7 +189,7 @@
                             <tr>
                                 <td class="ps-4 text-muted">
                                     <div class="fw-bold">20/05/2026</div>
-                                    <div class="small">Registrado a las 17:10 PM</div>
+                                    <div class="small">Registrado a las 17:10:58</div>
                                 </td>
                                 <td><span class="badge bg-primary-subtle text-primary">Noche (N)</span></td>
                                 <td>
@@ -245,7 +245,7 @@
                 <div class="row mb-4">
                     <div class="col-6">
                         <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 0.7rem;">Fecha</small>
-                        <span class="fw-bold">22 de Mayo, 2026</span>
+                        <span class="fw-bold">23 de Mayo, 2026</span>
                     </div>
                     <div class="col-6 text-end">
                         <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 0.7rem;">Turno</small>
@@ -351,12 +351,46 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="modalEliminar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-body p-4 text-center">
+                <div class="text-danger mb-3">
+                    <i class="bi bi-exclamation-octagon-fill" style="font-size: 3.5rem;"></i>
+                </div>
+                <h5 class="fw-bold">¿Eliminar registro?</h5>
+                <p class="text-muted small">El registro de actividades con fecha <strong>23/05/2026</strong> ya no podrá ser recuperado.</p>
+                <div class="d-grid gap-2 mt-4">
+                    <button type="button" class="btn btn-danger fw-bold py-2 shadow-sm">Eliminar</button>
+                    <button type="button" class="btn btn-light text-muted" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.getElementById('sidebarCollapse').addEventListener('click', function () {
             document.getElementById('sidebar').classList.toggle('active');
             document.getElementById('content').classList.toggle('active');
         });
+        let usuario = localStorage.getItem("usuario");
+
+        if (usuario == "66666666") {
+            document.getElementById("usuario").textContent = "Lic. Maria Delgado";
+            document.getElementById("img-usuario").src = "https://i.pravatar.cc/150?img=26";
+        } else if (usuario == "44444444") {
+            document.getElementById("usuario").textContent = "Lic. Nayda Gomez";
+            document.getElementById("img-usuario").src = "https://i.pravatar.cc/150?img=27";
+        } else if (usuario == "33333333") {
+            document.getElementById("usuario").textContent = "Lic. Alondra Huaraca";
+            document.getElementById("img-usuario").src = "https://i.pravatar.cc/150?img=28";
+        } else if (usuario == "22222222") {
+            document.getElementById("usuario").textContent = "Lic. Maricela Leon";
+            document.getElementById("img-usuario").src = "https://i.pravatar.cc/150?img=32";
+        }
     </script>
 </body>
 </html>

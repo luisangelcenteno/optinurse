@@ -66,14 +66,13 @@
     <!-- SIDEBAR -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <img src="https://i.pravatar.cc/150?img=26" alt="User" class="profile-img">
-            <h6 class="mb-0 fw-bold">Lic. Sthefany Saavedra</h6>
-            <small class="text-muted">Enfermera Especialista</small><br>
+            <img src="https://i.pravatar.cc/150?img=9" alt="User" class="profile-img">
+            <h6 class="mb-0 fw-bold">Ing. Carmen Garcia</h6>
+            <small class="text-muted">Ingeniera de Sistemas</small><br>
             <div class="badge bg-dark mt-2">Administrador</div>
         </div>
         <div class="p-3">
             <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-grid-1x2-fill me-2"></i> Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link active" href="usuarios.html"><i class="bi bi-people-fill me-2"></i> Gestión de Usuarios</a></li>
             </ul>
         </div>
@@ -116,12 +115,12 @@
                         <div class="col-lg-6 col-md-7 text-md-end">
                             <span class="text-muted small me-3 d-none d-xl-inline">Descargar Listado:</span>
                             <div class="btn-group shadow-sm">
-                                <button class="btn btn-excel btn-export">
+                                <a class="btn btn-excel btn-export" target="_blank" href="usuarios.xlsx">
                                     <i class="bi bi-file-earmark-excel-fill"></i> EXCEL
-                                </button>
-                                <button class="btn btn-pdf btn-export">
+                                </a>
+                                <a class="btn btn-pdf btn-export" target="_blank" href="usuarios.pdf">
                                     <i class="bi bi-file-earmark-pdf-fill"></i> PDF
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -142,20 +141,143 @@
                         </thead>
                         <tbody>
                             <!-- USUARIO ACTIVO -->
+                             <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="user-avatar bg-primary me-3 shadow-sm">CG</div>
+                                        <div>
+                                            <div class="fw-bold">Garcia Sinchi, Carmen</div>
+                                            <small class="text-muted">carmen.garcia@optinurse.com</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-light text-dark border">77777777</span></td>
+                                <td>Ing. Sistemas</td>
+                                <td>Femenino</td>
+                                <td><span class="badge badge-role bg-primary-subtle text-primary border border-primary">Administrador</span></td>
+                                <td><span class="badge bg-success">Activo</span></td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEditarAdmin">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalBajaAdmin">
+                                        <i class="bi bi-person-x-fill"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
                             <tr>
                                 <td class="ps-4">
                                     <div class="d-flex align-items-center">
-                                        <div class="user-avatar bg-primary me-3 shadow-sm">DM</div>
+                                        <div class="user-avatar bg-info me-3 shadow-sm">MD</div>
                                         <div>
                                             <div class="fw-bold">Delgado Mendoza, Maria</div>
                                             <small class="text-muted">maria.delgado@optinurse.com</small>
                                         </div>
                                     </div>
                                 </td>
-                                <td><span class="badge bg-light text-dark border">44556677</span></td>
+                                <td><span class="badge bg-light text-dark border">66666666</span></td>
                                 <td>Lic. Enfermería</td>
                                 <td>Femenino</td>
-                                <td><span class="badge badge-role bg-info-subtle text-info border border-info">Enfermero</span></td>
+                                <td><span class="badge badge-role bg-info-subtle text-info border border-info">Enfermera</span></td>
+                                <td><span class="badge bg-success">Activo</span></td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEditarUsuario">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalBajaUsuario">
+                                        <i class="bi bi-person-x-fill"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="user-avatar bg-info me-3 shadow-sm">NG</div>
+                                        <div>
+                                            <div class="fw-bold">Gomez Vargas, Nayda</div>
+                                            <small class="text-muted">nayda.gomez@optinurse.com</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-light text-dark border">44444444</span></td>
+                                <td>Lic. Enfermería</td>
+                                <td>Femenino</td>
+                                <td><span class="badge badge-role bg-info-subtle text-info border border-info">Enfermera</span></td>
+                                <td><span class="badge bg-success">Activo</span></td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEditarUsuario">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalBajaUsuario">
+                                        <i class="bi bi-person-x-fill"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="user-avatar bg-info me-3 shadow-sm">AH</div>
+                                        <div>
+                                            <div class="fw-bold">Huaraca Gomez, Alondra</div>
+                                            <small class="text-muted">alondra.huaraca@optinurse.com</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-light text-dark border">33333333</span></td>
+                                <td>Lic. Enfermería</td>
+                                <td>Femenino</td>
+                                <td><span class="badge badge-role bg-info-subtle text-info border border-info">Enfermera</span></td>
+                                <td><span class="badge bg-success">Activo</span></td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEditarUsuario">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalBajaUsuario">
+                                        <i class="bi bi-person-x-fill"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="user-avatar bg-info me-3 shadow-sm">ML</div>
+                                        <div>
+                                            <div class="fw-bold">Leon Hurtado, Maricela</div>
+                                            <small class="text-muted">maricela.leon@optinurse.com</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-light text-dark border">22222222</span></td>
+                                <td>Lic. Enfermería</td>
+                                <td>Femenino</td>
+                                <td><span class="badge badge-role bg-info-subtle text-info border border-info">Enfermera</span></td>
+                                <td><span class="badge bg-success">Activo</span></td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEditarUsuario">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#modalBajaUsuario">
+                                        <i class="bi bi-person-x-fill"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="user-avatar bg-warning me-3 shadow-sm">MP</div>
+                                        <div>
+                                            <div class="fw-bold">Paytan Garcia, Monica</div>
+                                            <small class="text-muted">monica.paytan@optinurse.com</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-light text-dark border">55555555</span></td>
+                                <td>Lic. Enfermería</td>
+                                <td>Femenino</td>
+                                <td><span class="badge badge-role bg-warning-subtle text-dark border border-warning">Consulta</span></td>
                                 <td><span class="badge bg-success">Activo</span></td>
                                 <td class="text-center">
                                     <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEditarUsuario">
@@ -274,6 +396,70 @@
         </div>
     </div>
 
+
+
+<div class="modal fade" id="modalEditarAdmin" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-primary text-white p-4">
+                <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>Actualizar Datos del Personal</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Nombres</label>
+                        <input type="text" class="form-control" value="Carmen">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Apellido Paterno</label>
+                        <input type="text" class="form-control" value="Garcia">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Apellido Materno</label>
+                        <input type="text" class="form-control" value="Sinchi">
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <label class="form-label">DNI / Documento</label>
+                        <input type="text" class="form-control bg-light" value="77777777" readonly>
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <label class="form-label">Género</label>
+                        <select class="form-select">
+                            <option value="F" selected>Femenino</option>
+                            <option value="M">Masculino</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <label class="form-label">Profesión</label>
+                        <select class="form-select">
+                            <option value="lic">Lic. Enfermería</option>
+                            <option value="ing" selected>Ing. Sistemas</option>
+                            <option value="tec">Téc. Enfermería</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <label class="form-label">Cambiar Contraseña (Opcional)</label>
+                        <input type="password" class="form-control" placeholder="Dejar en blanco para no cambiar">
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <label class="form-label">Perfil / Rol</label>
+                        <select class="form-select">
+                            <option value="enfermero">Enfermero (Registra)</option>
+                            <option value="administrador" selected>Administrador</option>
+                            <option value="consultor">Consultor</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0 p-4 bg-light">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary px-4 fw-bold">Actualizar Información</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg">
@@ -343,6 +529,24 @@
                 </div>
                 <h5 class="fw-bold">¿Dar de baja?</h5>
                 <p class="text-muted small">El usuario <strong>Maria Delgado</strong> ya no podrá ingresar al sistema una vez desactivado.</p>
+                <div class="d-grid gap-2 mt-4">
+                    <button type="button" class="btn btn-danger fw-bold py-2 shadow-sm">Confirmar Baja</button>
+                    <button type="button" class="btn btn-light text-muted" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalBajaAdmin" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-body p-4 text-center">
+                <div class="text-danger mb-3">
+                    <i class="bi bi-exclamation-octagon-fill" style="font-size: 3.5rem;"></i>
+                </div>
+                <h5 class="fw-bold">¿Dar de baja?</h5>
+                <p class="text-muted small">El usuario <strong>Carmen Garcia</strong> ya no podrá ingresar al sistema una vez desactivado.</p>
                 <div class="d-grid gap-2 mt-4">
                     <button type="button" class="btn btn-danger fw-bold py-2 shadow-sm">Confirmar Baja</button>
                     <button type="button" class="btn btn-light text-muted" data-bs-dismiss="modal">Cancelar</button>
